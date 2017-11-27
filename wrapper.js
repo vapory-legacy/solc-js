@@ -15,7 +15,7 @@ function setupMethods (soljson) {
   if (('_compileJSONCallback' in soljson) || ('_compileStandard' in soljson)) {
     var copyString = function (str, ptr) {
       var buffer = soljson._malloc(str.length + 1);
-      soljson.writeStringToMemory(str, buffer);
+      soljson.stringToUTF8(str, buffer, str.length + 1);
       soljson.setValue(ptr, buffer, '*');
     };
     var wrapCallback = function (callback) {
