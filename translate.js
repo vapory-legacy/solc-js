@@ -60,7 +60,15 @@ function translateJsonCompilerOutput (output) {
     var contractInput = output['contracts'][contract];
 
     var gasEstimates = contractInput['gasEstimates'];
-
+    if (!gasEstimates['creation']) {
+      gasEstimates['creation'] = [null, null];
+    }
+    if (!gasEstimates['internal']) {
+      gasEstimates['internal'] = null;
+    }
+    if (!gasEstimates['external']) {
+      gasEstimates['external'] = null;
+    }
     var contractOutput = {
       'abi': JSON.parse(contractInput['interface']),
       'metadata': contractInput['metadata'],
