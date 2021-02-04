@@ -178,7 +178,7 @@ function setupMethods (soljson) {
     // instead of from the local filesystem.
     loadRemoteVersion: function (versionString, cb) {
       var mem = new MemoryStream(null, {readable: false});
-      var url = 'https://ethereum.github.io/solc-bin/bin/soljson-' + versionString + '.js';
+      var url = 'https://github.com/vaporyco/solc-bin/raw/gh-pages/bin/soljson-' + versionString + '.js';
       https.get(url, function (response) {
         if (response.statusCode !== 200) {
           cb(new Error('Error retrieving binary: ' + response.statusMessage));

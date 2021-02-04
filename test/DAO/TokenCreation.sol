@@ -18,7 +18,7 @@ along with the DAO.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
  * Token Creation contract, used by the DAO to create its tokens and initialize
- * its ether. Feel free to modify the divisor method to implement different
+ * its vapor. Feel free to modify the divisor method to implement different
  * Token Creation parameters
 */
 
@@ -38,7 +38,7 @@ contract TokenCreationInterface {
     // creation, otherwise only the address stored in privateCreation is
     // allowed to create tokens
     address public privateCreation;
-    // hold extra ether which has been sent after the DAO token
+    // hold extra vapor which has been sent after the DAO token
     // creation rate has increased
     ManagedAccount public extraBalance;
     // tracks the amount of wei given from each contributor (used for refund)
@@ -119,7 +119,7 @@ contract TokenCreation is TokenCreationInterface, Token {
         revert();
     }
 
-    function refund() noEther {
+    function refund() noVapor {
         if (now > closingTime && !isFueled) {
             // Get extraBalance - will only succeed when called for the first time
             if (extraBalance.balance >= extraBalance.accumulatedInput())

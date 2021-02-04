@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/ethereum/solc-js.svg?branch=master)](https://travis-ci.org/ethereum/solc-js)
+[![Build Status](https://travis-ci.org/vaporyco/solc-js.svg?branch=master)](https://travis-ci.org/vaporyco/solc-js)
 
 # solc-js
-JavaScript bindings for the [Solidity compiler](https://github.com/ethereum/solidity).
+JavaScript bindings for the [Solidity compiler](https://github.com/vaporyco/solidity).
 
-Uses the Emscripten compiled Solidity found in the [solc-bin repository](https://github.com/ethereum/solc-bin).
+Uses the Emscripten compiled Solidity found in the [solc-bin repository](https://github.com/vaporyco/solc-bin).
 
 ## Node.js Usage
 
@@ -24,7 +24,7 @@ solcjs --help
 ```
 
 Note: this commandline interface is not compatible with `solc` provided by the Solidity compiler package and thus cannot be
-used in combination with an Ethereum client via the `eth.compile.solidity()` RPC method. Please refer to the
+used in combination with an Vapory client via the `vap.compile.solidity()` RPC method. Please refer to the
 [Solidity compiler documentation](https://solidity.readthedocs.io/) for instructions to install `solc`.
 
 ### Usage in Projects
@@ -34,7 +34,7 @@ used in combination with an Ethereum client via the `eth.compile.solidity()` RPC
 It can also be included and used in other projects:
 
 ```javascript
-var solc = require('solc')
+var solc = require('@vapory/solc')
 var input = 'contract x { function g() {} }'
 // Setting 1 as second paramateractivates the optimiser
 var output = solc.compile(input, 1)

@@ -7,13 +7,13 @@ var pkg = require('./package.json');
 var fs = require('fs');
 var https = require('https');
 var MemoryStream = require('memorystream');
-var ethJSUtil = require('ethereumjs-util');
+var vapJSUtil = require('vaporyjs-util');
 
 function getVersionList (cb) {
   console.log('Retrieving available version list...');
 
   var mem = new MemoryStream(null, { readable: false });
-  https.get('https://ethereum.github.io/solc-bin/bin/list.json', function (response) {
+  https.get('https://github.com/vaporyco/solc-bin/raw/gh-pages/bin/list.json', function (response) {
     if (response.statusCode !== 200) {
       console.log('Error downloading file: ' + response.statusCode);
       process.exit(1);
@@ -40,7 +40,7 @@ function downloadBinary (outputName, version, expectedHash) {
   });
 
   var file = fs.createWriteStream(outputName, { encoding: 'binary' });
-  https.get('https://ethereum.github.io/solc-bin/bin/' + version, function (response) {
+  https.get('https://github.com/vaporyco/solc-bin/raw/gh-pages/bin/' + version, function (response) {
     if (response.statusCode !== 200) {
       console.log('Error downloading file: ' + response.statusCode);
       process.exit(1);
@@ -48,7 +48,7 @@ function downloadBinary (outputName, version, expectedHash) {
     response.pipe(file);
     file.on('finish', function () {
       file.close(function () {
-        var hash = '0x' + ethJSUtil.sha3(fs.readFileSync(outputName, { encoding: 'binary' })).toString('hex');
+        var hash = '0x' + vapJSUtil.sha3(fs.readFileSync(outputName, { encoding: 'binary' })).toString('hex');
         if (expectedHash !== hash) {
           console.log('Hash mismatch: ' + expectedHash + ' vs ' + hash);
           process.exit(1);

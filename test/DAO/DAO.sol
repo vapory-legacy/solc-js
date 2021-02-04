@@ -27,7 +27,7 @@ import "./ManagedAccount.sol";
 contract DAOInterface {
 
     // The amount of days for which people who try to participate in the
-    // creation by calling the fallback function will still get their ether back
+    // creation by calling the fallback function will still get their vapor back
     uint constant creationGracePeriod = 40 days;
     // The minimum debate period that a generic proposal can have
     uint constant minProposalDebatePeriod = 2 weeks;
@@ -41,10 +41,10 @@ contract DAOInterface {
     // (used in the case `executeProposal` fails because it throws)
     uint constant executeProposalPeriod = 10 days;
     // Denotes the maximum proposal deposit that can be given. It is given as
-    // a fraction of total Ether spent plus balance of the DAO
+    // a fraction of total Vapor spent plus balance of the DAO
     uint constant maxDepositDivisor = 100;
 
-    // Proposals to spend the DAO's ether or to choose a new Curator
+    // Proposals to spend the DAO's vapor or to choose a new Curator
     Proposal[] public proposals;
     // The quorum needed for each proposal is partially calculated by
     // totalSupply / minQuorumDivisor
@@ -54,13 +54,13 @@ contract DAOInterface {
 
     // Address of the curator
     address public curator;
-    // The whitelist: List of addresses the DAO is allowed to send ether to
+    // The whitelist: List of addresses the DAO is allowed to send vapor to
     mapping (address => bool) public allowedRecipients;
 
     // Tracks the addresses that own Reward Tokens. Those addresses can only be
     // DAOs that have split from the original DAO. Conceptually, Reward Tokens
     // represent the proportion of the rewards that the DAO has the right to
-    // receive. These Reward Tokens are generated when the DAO spends ether.
+    // receive. These Reward Tokens are generated when the DAO spends vapor.
     mapping (address => uint) public rewardToken;
     // Total supply of rewardToken
     uint public totalRewardToken;
@@ -180,11 +180,11 @@ contract DAOInterface {
     function ();
 
 
-    /// @dev This function is used to send ether back
+    /// @dev This function is used to send vapor back
     /// to the DAO, it can also be used to receive payments that should not be
     /// counted as rewards (donations, grants, etc.)
-    /// @return Whether the DAO received the ether successfully
-    function receiveEther() returns(bool);
+    /// @return Whvapor the DAO received the vapor successfully
+    function receiveVapor() returns(bool);
 
     /// @notice `msg.sender` creates a proposal to send `_amount` Wei to
     /// `_recipient` with the transaction data `_transactionData`. If
@@ -196,7 +196,7 @@ contract DAOInterface {
     /// @param _transactionData Data of the proposed transaction
     /// @param _debatingPeriod Time used for debating a proposal, at least 2
     /// weeks for a regular proposal, 10 days for new Curator proposal
-    /// @param _newCurator Bool defining whether this proposal is about
+    /// @param _newCurator Bool defining whvapor this proposal is about
     /// a new Curator or not
     /// @return The proposal ID. Needed for voting on the proposal
     function newProposal(
@@ -215,7 +215,7 @@ contract DAOInterface {
     /// @param _recipient The recipient of the proposed transaction
     /// @param _amount The amount of wei to be sent in the proposed transaction
     /// @param _transactionData The data of the proposed transaction
-    /// @return Whether the proposal ID matches the transaction data or not
+    /// @return Whvapor the proposal ID matches the transaction data or not
     function checkProposalCode(
         uint _proposalID,
         address _recipient,
@@ -232,18 +232,18 @@ contract DAOInterface {
         bool _supportsProposal
     ) onlyTokenholders returns (uint _voteID);
 
-    /// @notice Checks whether proposal `_proposalID` with transaction data
+    /// @notice Checks whvapor proposal `_proposalID` with transaction data
     /// `_transactionData` has been voted for or rejected, and executes the
     /// transaction in the case it has been voted for.
     /// @param _proposalID The proposal ID
     /// @param _transactionData The data of the proposed transaction
-    /// @return Whether the proposed transaction has been executed or not
+    /// @return Whvapor the proposed transaction has been executed or not
     function executeProposal(
         uint _proposalID,
         bytes _transactionData
     ) returns (bool _success);
 
-    /// @notice ATTENTION! I confirm to move my remaining ether to a new DAO
+    /// @notice ATTENTION! I confirm to move my remaining vapor to a new DAO
     /// with `_newCurator` as the new Curator, as has been
     /// proposed in proposal `_proposalID`. This will burn my tokens. This can
     /// not be undone and will split the DAO into two DAO's, with two
@@ -252,7 +252,7 @@ contract DAOInterface {
     /// @param _newCurator The new Curator of the new DAO
     /// @dev This function, when called for the first time for this proposal,
     /// will create a new DAO and send the sender's portion of the remaining
-    /// ether and Reward Tokens to the new DAO. It will also burn the DAO Tokens
+    /// vapor and Reward Tokens to the new DAO. It will also burn the DAO Tokens
     /// of the sender.
     function splitDAO(
         uint _proposalID,
@@ -260,7 +260,7 @@ contract DAOInterface {
     ) returns (bool _success);
 
     /// @dev can only be called by the DAO itself through a proposal
-    /// updates the contract of the DAO by sending all ether and rewardTokens
+    /// updates the contract of the DAO by sending all vapor and rewardTokens
     /// to the new DAO. The new DAO needs to be approved by the Curator
     /// @param _newContract the address of the new contract
     function newContract(address _newContract);
@@ -270,7 +270,7 @@ contract DAOInterface {
     /// that the DAO can send transactions to them (using proposals)
     /// @param _recipient New recipient address
     /// @dev Can only be called by the current Curator
-    /// @return Whether successful or not
+    /// @return Whvapor successful or not
     function changeAllowedRecipients(address _recipient, bool _allowed) external returns (bool _success);
 
 
@@ -283,23 +283,23 @@ contract DAOInterface {
     /// @notice Move rewards from the DAORewards managed account
     /// @param _toMembers If true rewards are moved to the actual reward account
     ///                   for the DAO. If not then it's moved to the DAO itself
-    /// @return Whether the call was successful
+    /// @return Whvapor the call was successful
     function retrieveDAOReward(bool _toMembers) external returns (bool _success);
 
     /// @notice Get my portion of the reward that was sent to `rewardAccount`
-    /// @return Whether the call was successful
+    /// @return Whvapor the call was successful
     function getMyReward() returns(bool _success);
 
     /// @notice Withdraw `_account`'s portion of the reward from `rewardAccount`
     /// to `_account`'s balance
-    /// @return Whether the call was successful
+    /// @return Whvapor the call was successful
     function withdrawRewardFor(address _account) internal returns (bool _success);
 
     /// @notice Send `_amount` tokens to `_to` from `msg.sender`. Prior to this
     /// getMyReward() is called.
     /// @param _to The address of the recipient
     /// @param _amount The amount of tokens to be transfered
-    /// @return Whether the transfer was successful or not
+    /// @return Whvapor the transfer was successful or not
     function transferWithoutReward(address _to, uint256 _amount) returns (bool success);
 
     /// @notice Send `_amount` tokens to `_to` from `_from` on the condition it
@@ -307,7 +307,7 @@ contract DAOInterface {
     /// @param _from The address of the sender
     /// @param _to The address of the recipient
     /// @param _amount The amount of tokens to be transfered
-    /// @return Whether the transfer was successful or not
+    /// @return Whvapor the transfer was successful or not
     function transferFromWithoutReward(
         address _from,
         address _to,
@@ -316,7 +316,7 @@ contract DAOInterface {
 
     /// @notice Doubles the 'minQuorumDivisor' in the case quorum has not been
     /// achieved in 52 weeks
-    /// @return Whether the change was successful or not
+    /// @return Whvapor the change was successful or not
     function halveMinQuorum() returns (bool _success);
 
     /// @return total number of proposals ever created
@@ -327,12 +327,12 @@ contract DAOInterface {
     function getNewDAOAddress(uint _proposalID) constant returns (address _newDAO);
 
     /// @param _account The address of the account which is checked.
-    /// @return Whether the account is blocked (not allowed to transfer tokens) or not.
+    /// @return Whvapor the account is blocked (not allowed to transfer tokens) or not.
     function isBlocked(address _account) internal returns (bool);
 
     /// @notice If the caller is blocked by a proposal whose voting deadline
     /// has exprired then unblock him.
-    /// @return Whether the account is blocked (not allowed to transfer tokens) or not.
+    /// @return Whvapor the account is blocked (not allowed to transfer tokens) or not.
     function unblockMe() returns (bool);
 
     event ProposalAdded(
@@ -396,11 +396,11 @@ contract DAO is DAOInterface, Token, TokenCreation {
         if (now < closingTime + creationGracePeriod && msg.sender != address(extraBalance))
             createTokenProxy(msg.sender);
         else
-            receiveEther();
+            receiveVapor();
     }
 
 
-    function receiveEther() returns (bool) {
+    function receiveVapor() returns (bool) {
         return true;
     }
 
@@ -442,7 +442,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
         if (now + _debatingPeriod < now) // prevents overflow
             revert();
 
-        // to prevent a 51% attacker to convert the ether into deposit
+        // to prevent a 51% attacker to convert the vapor into deposit
         if (msg.sender == address(this))
             revert();
 
@@ -482,7 +482,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
         address _recipient,
         uint _amount,
         bytes _transactionData
-    ) noEther constant returns (bool _codeChecksOut) {
+    ) noVapor constant returns (bool _codeChecksOut) {
         Proposal p = proposals[_proposalID];
         return p.proposalHash == sha3(_recipient, _amount, _transactionData);
     }
@@ -491,7 +491,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
     function vote(
         uint _proposalID,
         bool _supportsProposal
-    ) onlyTokenholders noEther returns (uint _voteID) {
+    ) onlyTokenholders noVapor returns (uint _voteID) {
 
         Proposal p = proposals[_proposalID];
         if (p.votedYes[msg.sender]
@@ -524,7 +524,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
     function executeProposal(
         uint _proposalID,
         bytes _transactionData
-    ) noEther returns (bool _success) {
+    ) noVapor returns (bool _success) {
 
         Proposal p = proposals[_proposalID];
 
@@ -595,7 +595,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
             _success = true;
 
-            // only create reward tokens when ether is not sent to the DAO itself and
+            // only create reward tokens when vapor is not sent to the DAO itself and
             // related addresses. Proxy addresses should be forbidden by the curator.
             if (p.recipient != address(this) && p.recipient != address(rewardAccount)
                 && p.recipient != address(DAOrewardAccount)
@@ -624,7 +624,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
     function splitDAO(
         uint _proposalID,
         address _newCurator
-    ) noEther onlyTokenholders returns (bool _success) {
+    ) noVapor onlyTokenholders returns (bool _success) {
 
         Proposal p = proposals[_proposalID];
 
@@ -661,7 +661,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
             p.proposalPassed = true;
         }
 
-        // Move ether and assign new Tokens
+        // Move vapor and assign new Tokens
         uint fundsToBeMoved =
             (balances[msg.sender] * p.splitData[0].splitBalance) /
             p.splitData[0].totalSupply;
@@ -698,7 +698,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
 
     function newContract(address _newContract){
         if (msg.sender != address(this) || !allowedRecipients[_newContract]) return;
-        // move all ether
+        // move all vapor
         if (!_newContract.call.value(address(this).balance)()) {
             revert();
         }
@@ -711,7 +711,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
     }
 
 
-    function retrieveDAOReward(bool _toMembers) external noEther returns (bool _success) {
+    function retrieveDAOReward(bool _toMembers) external noVapor returns (bool _success) {
         DAO dao = DAO(msg.sender);
 
         if ((rewardToken[msg.sender] * DAOrewardAccount.accumulatedInput()) /
@@ -736,12 +736,12 @@ contract DAO is DAOInterface, Token, TokenCreation {
         return true;
     }
 
-    function getMyReward() noEther returns (bool _success) {
+    function getMyReward() noVapor returns (bool _success) {
         return withdrawRewardFor(msg.sender);
     }
 
 
-    function withdrawRewardFor(address _account) noEther internal returns (bool _success) {
+    function withdrawRewardFor(address _account) noVapor internal returns (bool _success) {
         if ((balanceOf(_account) * rewardAccount.accumulatedInput()) / totalSupply < paidOut[_account])
             revert();
 
@@ -821,7 +821,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
     }
 
 
-    function changeProposalDeposit(uint _proposalDeposit) noEther external {
+    function changeProposalDeposit(uint _proposalDeposit) noVapor external {
         if (msg.sender != address(this) || _proposalDeposit > (actualBalance() + rewardToken[address(this)])
             / maxDepositDivisor) {
 
@@ -831,7 +831,7 @@ contract DAO is DAOInterface, Token, TokenCreation {
     }
 
 
-    function changeAllowedRecipients(address _recipient, bool _allowed) noEther external returns (bool _success) {
+    function changeAllowedRecipients(address _recipient, bool _allowed) noVapor external returns (bool _success) {
         if (msg.sender != curator)
             revert();
         allowedRecipients[_recipient] = _allowed;

@@ -24,8 +24,8 @@ contract (e.g. TokenCreation.sol).
 
 Thank you ConsenSys, this contract originated from:
 https://github.com/ConsenSys/Tokens/blob/master/Token_Contracts/contracts/Standard_Token.sol
-Which is itself based on the Ethereum standardized contract APIs:
-https://github.com/ethereum/wiki/wiki/Standardized_Contract_APIs
+Which is itself based on the Vapory standardized contract APIs:
+https://github.com/vaporyco/wiki/wiki/Standardized_Contract_APIs
 */
 
 pragma solidity ^0.4.0;
@@ -93,14 +93,14 @@ contract tokenRecipient {
 
 contract Token is TokenInterface {
     // Protects users by preventing the execution of method calls that
-    // inadvertently also transferred ether
-    modifier noEther() {if (msg.value > 0) revert(); _; }
+    // inadvertently also transferred vapor
+    modifier noVapor() {if (msg.value > 0) revert(); _; }
 
     function balanceOf(address _owner) public constant returns (uint256 balance) {
         return balances[_owner];
     }
 
-    function transfer(address _to, uint256 _amount) noEther public returns (bool success) {
+    function transfer(address _to, uint256 _amount) noVapor public returns (bool success) {
         if (balances[msg.sender] >= _amount && _amount > 0) {
             balances[msg.sender] -= _amount;
             balances[_to] += _amount;
@@ -115,7 +115,7 @@ contract Token is TokenInterface {
         address _from,
         address _to,
         uint256 _amount
-    ) noEther public returns (bool success) {
+    ) noVapor public returns (bool success) {
 
         if (balances[_from] >= _amount
             && allowed[_from][msg.sender] >= _amount
