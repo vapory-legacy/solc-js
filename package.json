@@ -1,7 +1,7 @@
 {
   "name": "@vapory/solc",
   "namespace": "vapory",
-  "version": "0.4.19",
+  "version": "0.4.19-a",
   "description": "Vapory Flavored Solidity Compiler",
   "main": "index.js",
   "bin": {
